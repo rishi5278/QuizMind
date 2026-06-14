@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuizMind — Test Your Knowledge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== THEME TOGGLE ===== -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light theme">
+    <span class="theme-icon">🌙</span>
+  </button>
+
+  <!-- ===== WELCOME SCREEN ===== -->
+  <section class="screen" id="welcomeScreen" aria-label="Welcome screen">
+    <div class="card welcome-card">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">⚡</div>
+        <h1 class="brand-title">QuizMind</h1>
+        <p class="brand-sub">Challenge your knowledge across science, history, and tech</p>
+      </div>
+
+      <div class="welcome-stats" aria-label="Quiz info">
+        <div class="stat-pill"><span>10</span> Questions</div>
+        <div class="stat-pill"><span>15s</span> Per Question</div>
+        <div class="stat-pill"><span>4</span> Choices</div>
+      </div>
+
+      <div class="input-group">
+        <label for="playerName" class="input-label">Your name</label>
+        <input
+          type="text"
+          id="playerName"
+          class="name-input"
+          placeholder="Enter your name…"
+          maxlength="30"
+          autocomplete="off"
+          aria-required="true"
+        />
+        <span class="input-error" id="nameError" role="alert" aria-live="polite"></span>
+      </div>
+
+      <button class="btn btn-primary" id="startBtn">
+        Start Quiz
+        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <section class="screen hidden" id="quizScreen" aria-label="Quiz screen">
+    <div class="quiz-layout">
+
+      <!-- Top bar -->
+      <div class="quiz-topbar">
+        <div class="player-badge" id="playerBadge" aria-label="Player name"></div>
+        <div class="question-counter" id="questionCounter" aria-live="polite"></div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar" aria-label="Quiz progress">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <!-- Dot navigator -->
+      <div class="dot-nav" id="dotNav" aria-label="Question navigation"></div>
+
+      <!-- Main quiz card -->
+      <div class="card quiz-card">
+
+        <!-- Timer ring -->
+        <div class="timer-wrapper" aria-label="Time remaining">
+          <svg class="timer-ring" viewBox="0 0 56 56" aria-hidden="true">
+            <circle class="timer-ring-bg" cx="28" cy="28" r="24" />
+            <circle class="timer-ring-fill" id="timerRingFill" cx="28" cy="28" r="24" />
+          </svg>
+          <span class="timer-number" id="timerNumber" aria-live="polite">15</span>
+        </div>
+
+        <!-- Question -->
+        <p class="question-category" id="questionCategory"></p>
+        <h2 class="question-text" id="questionText"></h2>
+
+        <!-- Options -->
+        <div class="options-grid" id="optionsGrid" role="radiogroup" aria-label="Answer choices"></div>
+
+      </div>
+
+      <!-- Navigation -->
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" id="prevBtn" aria-label="Previous question">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Prev
+        </button>
+        <button class="btn btn-primary" id="nextBtn" aria-label="Next question">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <section class="screen hidden" id="resultScreen" aria-label="Results screen">
+    <div class="result-layout">
+
+      <div class="card result-card">
+        <div class="result-trophy" aria-hidden="true" id="resultTrophy">🏆</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p class="result-name" id="resultName"></p>
+
+        <!-- Score ring -->
+        <div class="score-ring-wrapper" aria-label="Your score">
+          <svg class="score-ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="score-ring-bg" cx="60" cy="60" r="52" />
+            <circle class="score-ring-fill" id="scoreRingFill" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="score-center">
+            <span class="score-pct" id="scorePct">0%</span>
+            <span class="score-label">Score</span>
+          </div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="result-stats">
+          <div class="result-stat correct">
+            <span class="stat-num" id="correctCount">0</span>
+            <span class="stat-lbl">Correct</span>
+          </div>
+          <div class="result-stat divider" aria-hidden="true"></div>
+          <div class="result-stat incorrect">
+            <span class="stat-num" id="incorrectCount">0</span>
+            <span class="stat-lbl">Incorrect</span>
+          </div>
+          <div class="result-stat divider" aria-hidden="true"></div>
+          <div class="result-stat skipped">
+            <span class="stat-num" id="skippedCount">0</span>
+            <span class="stat-lbl">Skipped</span>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" id="playAgainBtn">Play Again</button>
+          <button class="btn btn-outline" id="reviewBtn">Review Answers</button>
+        </div>
+      </div>
+
+      <!-- Review section -->
+      <div class="review-section hidden" id="reviewSection" aria-label="Answer review">
+        <h3 class="review-heading">Answer Review</h3>
+        <div id="reviewList"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
