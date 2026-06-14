@@ -16,17 +16,7 @@ A fully responsive, modern quiz application built with **pure HTML, CSS, and Van
 
 ## 📸 Screenshots
 
-### Welcome Screen
-![Welcome Screen](screenshot-welcome.png)
-
-### Quiz Screen
-![Quiz Screen](screenshot-quiz.png)
-
-### Results Screen
-![Results Screen](screenshot-results.png)
-
-### Answer Review
-![Answer Review](screenshot-review.png)
+you can check return in readme file inside the folder
 
 ---
 
